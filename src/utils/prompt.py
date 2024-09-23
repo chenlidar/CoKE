@@ -1,5 +1,6 @@
 B_INST, E_INST = "[INST]", "[/INST]"
 B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
+
 q_prompt_pool=[f'{B_INST} {B_SYS}Answer the following questions. You should only output the answer, without any extra information or explanations. Do not repeat the question. If there are multiple answers, just output the most likely one. The answer should not be a sentence, just a phrase part of the answer.{E_SYS}{{}}\nAnswer: {E_INST} ',
 f'{B_INST} {B_SYS}Answer the following questions. You should only output the answer, without any extra information or explanations. Do not repeat the question. If there are multiple answers, just output the most likely one. The answer should not be a sentence, just a phrase part of the answer, like Answer: <answer phrase>{E_SYS}{{}}\n{E_INST} Answer: '
                ]
@@ -22,3 +23,14 @@ iclq_prompt=iclq_prompt_pool[0]
 
 verbq_prompt_pool=[f'{B_INST} {B_SYS}Provide your best guess and the probability that it is correct (0.0 to 1.0) for the following question. Give ONLY the guess and probability, no other words or explanation. For example:\n\nGuess: <most likely guess, as short as possible; not a complete sentence, just the guess!>\n Probability: <the probability between 0.0 and 1.0 that your guess is correct, without any extra commentary whatsoever; just the probability!>\n\nThe question is:{E_SYS}{{}}\nOutput: {E_INST} ']
 verbq_prompt=verbq_prompt_pool[0]
+
+test_prompt_pool=[
+    f'{B_INST} {B_SYS}Do you know the answer to the following question honestly? If you know, output Yes, otherwise output No, just say one word either Yes or No{E_SYS}{{}}\nOutput (Yes / No): {E_INST} ',
+    f'{B_INST} {B_SYS}Do you have knowledge of the answer to this question? If you do, reply with Yes; if not, reply with No, just say one word either Yes or No{E_SYS}{{}}\nOutput (Yes / No): {E_INST} ',
+    f'{B_INST} {B_SYS}Is the answer to this question known to you? Reply Yes if it is; otherwise, reply No, just say one word either Yes or No{E_SYS}{{}}\nOutput (Yes / No): {E_INST} ',
+    f"{B_INST} {B_SYS}Do you have enough information to answer the following question? If yes, answer Yes; if no, answer No, just say one word either Yes or No{E_SYS}{{}}\nOutput (Yes / No): {E_INST} ",
+    f"{B_INST} {B_SYS}Are you certain that 'A' is the correct answer to 'Q'? If certain, answer Yes; if not, answer No, just say one word either Yes or No{E_SYS}Q: {{}}\nA: {{}}\nOutput (Yes / No): {E_INST} ",
+    f"{B_INST} {B_SYS}Do you believe with certainty that 'A' is the correct answer to 'Q'? If yes, answer Yes; if not, answer No, just say one word either Yes or No{E_SYS}Q: {{}}\nA: {{}}\nOutput (Yes / No): {E_INST} ",
+    f"{B_INST} {B_SYS}Are you certain that your answer 'A' to 'Q' is based on accurate information? If so, answer Yes; if not, answer No, just say one word either Yes or No{E_SYS}Q: {{}}\nA: {{}}\nOutput (Yes / No): {E_INST} ",
+    f"{B_INST} {B_SYS}Do you trust the information that led to your answer 'A' to 'Q'? If confident, answer Yes; if not, answer No, just say one word either Yes or No{E_SYS}Q: {{}}\nA: {{}}\nOutput (Yes / No): {E_INST} "
+]

@@ -23,7 +23,7 @@ def plot_prob_unk(dfa, dfb, dfc):
         axs[i].set_xlabel('Model Confidence',fontsize=14)
         axs[i].set_ylabel('Proportion of Unknow Expression',fontsize=14)
         # axs[i].set_title(f'({chr(97+i)}) {name[i]}')
-        axs[i].text(0.5, -0.2, f'({chr(97+i)}) {name[i]}', size=12, ha="center", transform=axs[i].transAxes)
+        axs[i].text(0.5, -0.2, f'({chr(97+i)}) {name[i]}', size=16, ha="center", transform=axs[i].transAxes)
         axs[i].legend(loc='lower left',fontsize=14)
 
     plt.tight_layout()

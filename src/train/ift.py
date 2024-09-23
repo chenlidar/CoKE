@@ -6,7 +6,7 @@ import torch.distributed as dist
 from tqdm import tqdm
 from torch.utils.data import DataLoader,TensorDataset
 from torch.utils.data.distributed import DistributedSampler
-from transformers import LlamaForCausalLM, LlamaTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import numpy as np
 import pandas as pd
 import os
@@ -59,8 +59,8 @@ if __name__ == "__main__":
     
     device = torch.device("cuda")
     model_name = args.model_path
-    tokenizer = LlamaTokenizer.from_pretrained(model_name)
-    model = LlamaForCausalLM.from_pretrained(args.model_path, low_cpu_mem_usage=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(args.model_path, low_cpu_mem_usage=True)
     
     if args.load_lora:
         # load lora parameter

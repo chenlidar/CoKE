@@ -32,14 +32,29 @@ def generate_with_prob(model,input_ids,attention_mask,max_new_tokens,eos_token_i
     
     return gens,probs
 
+def testall_prompt_single(prompt,row,tokenizer,model,max_new_tokens=15):
+    inputs=tokenizer(prompt.format(row['q'].strip()),add_special_tokens=True,return_tensors='pt')
+    gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,2)
+    ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace('</s>','').strip()
+    
+    return ans,probs.float().to('cpu')[0].tolist(),gen.to('cpu')[0].tolist()
+
+def testall_prompt2_single(prompt,row,tokenizer,model,max_new_tokens=3):
+    inputs=tokenizer(prompt.format(row['q'].strip(),row['pred'].strip()),add_special_tokens=True,return_tensors='pt')
+    gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,2)
+    ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace('</s>','').strip()
+    return ans,probs.float().to('cpu')[0].tolist(),gen.to('cpu')[0].tolist()
+
+
 def testall_prompt(prompt,df,tokenizer,model,max_new_tokens=15):
     ans_list=[]
     probs_list=[]
     gen_list=[]
     for idx,test in tqdm(df.iterrows()):
         inputs=tokenizer(prompt.format(test['q'].strip()),add_special_tokens=True,return_tensors='pt')
-        gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,2)
-        ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace('</s>','').strip()
+        gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,tokenizer.eos_token_id)
+        ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace(tokenizer.eos_token,'').strip()
+        # print(ans)
         ans_list.append(ans)
         probs_list.append(probs.float().to('cpu')[0].tolist())
         gen_list.append(gen.to('cpu')[0].tolist())
@@ -51,8 +66,8 @@ def testall_prompt2(prompt,df,tokenizer,model,max_new_tokens=3):
     gen_list=[]
     for idx,test in tqdm(df.iterrows()):
         inputs=tokenizer(prompt.format(test['q'].strip(),test['pred'].strip()),add_special_tokens=True,return_tensors='pt')
-        gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,2)
-        ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace('</s>','').strip()
+        gen,probs=generate_with_prob(model,inputs.input_ids.to(model.device),inputs.attention_mask.to(model.device),max_new_tokens,tokenizer.eos_token_id)
+        ans=tokenizer.decode(gen.to('cpu')[0],skip_special_tokens=False).replace(tokenizer.eos_token,'').strip()
         ans_list.append(ans)
         probs_list.append(probs.float().to('cpu')[0].tolist())
         gen_list.append(gen.to('cpu')[0].tolist())
